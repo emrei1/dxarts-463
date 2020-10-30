@@ -1,5 +1,7 @@
 // Emre Inceoglu - DXARTS 463 Assignment 1
 
+Server.killAll;
+
 MIDIIn.connectAll;
 
 (
@@ -27,7 +29,7 @@ s.boot;
 (
 ~lfoWaits1 = CtkControl.lfo(LFNoise2, 0.5, 0.1, 0.7).play;
 ~lfoFreqs1 = CtkControl.lfo(LFNoise2, 0.15, 36, 16).play;
-~lfoAmps1 = CtkControl.lfo(LFNoise2, 0.15, 0.3, 0.5).play;
+~lfoAmps1 = CtkControl.lfo(LFNoise2, 0.15, 0.3, 0.37).play;
 ~lfoPans1 = CtkControl.lfo(LFNoise2, 0.15, -1, 1).play;
 ~lfoNumHarms1 = CtkControl.lfo(LFNoise2, 0.15, 1, 50).play;
 ~task1 = Task({
@@ -79,9 +81,9 @@ s.boot;
 )
 
 (
-~lfoWaits3 = CtkControl.lfo(LFNoise2, 0.5, 1, 5).play;
+~lfoWaits3 = CtkControl.lfo(LFNoise2, 0.5, 1, 2).play;
 ~lfoFreqs3 = CtkControl.lfo(LFNoise2, 0.15, 50, 75).play;
-~lfoAmps3 = CtkControl.lfo(LFNoise2, 0.15, 0.1, 0.4).play;
+~lfoAmps3 = CtkControl.lfo(LFNoise2, 0.15, 0.1, 0.3).play;
 ~lfoPans3 = CtkControl.lfo(LFNoise2, 0.15, -1, 1).play;
 ~lfoNumHarms3 = CtkControl.lfo(LFNoise2, 0.15, 1, 150).play;
 ~task3 = Task({
@@ -118,14 +120,11 @@ arrayOfTasks = arrayOfTasks.add(~task2);
 arrayOfTasks = arrayOfTasks.add(~task3);
 
 	~noteOn = NoteOnResponder({ |src, chan, note, vel|
-
-	~reverb.note.in_(~audioBus).out_(0).play;
-	arrayOfTasks[note-firstNoteOffset].play;
-
-	    if (note >= firstNoteStopOffset, {
+		~reverb.note.in_(~audioBus).out_(0).play;
+		arrayOfTasks[note-firstNoteOffset].play;
+		if (note >= firstNoteStopOffset, {
+		    "stopped playing task".postln;
 		    arrayOfTasks[note-firstNoteStopOffset].stop;
-		    arrayOfTasks[note-firstNoteStopOffset].stop;
-
 	    });
 	},
     nil,
